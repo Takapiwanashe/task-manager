@@ -13,10 +13,10 @@ pipeline {
         stage('Code Source') {
             steps {
                 // Pull code from the Task-Manager repository
-                checkout([$class: 'GitSCM', branches: [[name: '*/main']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Tonny-Kioko/Task-Manager.git']]])
+                checkout([$class: 'GitSCM', branches: [[name: '*']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/Takapiwanashe/task-manager.git']]])
             }
         }
-
+// [[name: '*/main']]
         stage('Image Build') {
             steps {
                 script {
