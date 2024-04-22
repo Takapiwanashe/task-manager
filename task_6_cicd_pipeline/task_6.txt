@@ -1,0 +1,36 @@
+CI/CD Pipeline with Cloud Integration (DevOps and Cloud Engineering)
+- I will create a CI/CD pipeline using AWS Code Pipeline with the codebase imported from AWS Code Commit. 
+    Code Build and Code Deploy will also be used at various steps in the process. 
+
+OBJECTIVE 1: CREATING A CODECOMMIT REPOSITORY
+
+1. Click on Code Commit and select the 'Create Repository' option. Once created, clone the repository locally. 
+2. Create a Code Commit Username and Password on the IAM console. This ensures you can connect to the repository and push your changes through the HTTPS Git Credentials created. 
+    - Save these as they cannot be accessed later on.
+    * Alternatively, we can use GitHub as the code source since most of our pushes will go there. This is the approach I will be using for the project. 
+
+
+OBJECTIVE 2: CREATING A BUILD PROJECT ON CODEBUILD
+1. Enter a project name and a brief description
+2. Select a primary source, in this case I will be using GitHub, select the Task-Manager repository and the main branch. 
+3. Under the environment, select a Managed Image with the Ubuntu OS. Leave other options as default for simplicity.  
+4. Create a new service role, this will be performed by AWS once this option is selected. 
+5. Under the build specifications, select the buildspec.yml file option.
+6. Made other configurations to make the pipeline run successfully. 
+
+OBJECTIVE 3: S3 FOR ARTIFACT STORAGE
+On successful builds, artifact files will be stored in an S3 bucket. 
+
+
+Ultimately, the steps taken in the project are;
+1. Creating a docker image and testing out a container (sudo systemctl status docker.service)
+2. Creating an AWS Elastic Container Registry repository
+3. Creating an Application Load Balancer
+4. Creating an Amazon Elastic Container Service Cluster
+5. Creating an AWS CodeCommit repository for the codebase
+6. Configuring AWS codeBuild for the project and its dependencies. 
+7. Bringing the AWS CodePipeline together to include all the above steps
+8. Configuring Artifact storage in S3
+9. Deployment, testing and error handling. 
+
+NB: I wrote on this topic a while ago (https://medium.com/@anthonykioko/devops-project-deploying-ec2-instances-using-jenkins-declarative-ci-cd-pipelines-d5784d137862) using Jenkins. 

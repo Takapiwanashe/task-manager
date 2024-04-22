@@ -1,0 +1,78 @@
+version: "3.8"
+services:
+  web:
+    build: .
+    container_name: djangotaskmanagermonitored
+    command: bash -c "python manage.py makemigrations && python manage.py migrate && python manage.py runserver 0.0.0.0:8000"
+    volumes:
+      - .:/taskmanager
+    ports:
+      - "8000:8000"
+    depends_on:
+      - pgdb
+    environment:
+      - DATABASE_URL=postgres://postgres:c3po@db:5432/task_manager
+    restart: unless-stopped
+
+  pgdb:
+    image: postgres
+    container_name: pgdbtaskmanagermonitored
+    environment:
+      - POSTGRES_DB=task_manager
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=c3po
+    restart: unless-stopped
+
+  prometheus:
+    image: prom/prometheus:v2.36.2
+    container_name: prometheustaskmanagermonitored
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+    volumes:
+      - C:/Users/cfaki/OneDrive/Eneokazi/Task-Manager/prometheus.yml:/etc/prometheus/prometheus.yml #replace with the absolute path to your prometheus file.
+
+    ports:
+      - "9090:9090"
+    restart: unless-stopped
+
+  grafana:
+    image: grafana/grafana
+    container_name: grafanataskmanagermonitored
+    depends_on:
+      - prometheus
+    ports:
+      - "3000:3000"
+
+    restart: unless-stopped
+
+  alertmanager:
+    image: prom/alertmanager
+    container_name: alertmanagermonitored
+    volumes:
+      - C:\Users\cfaki\OneDrive\Eneokazi\Task-Manager\prometheus.yml:/etc/alertmanager/alertmanager.yml #replace with the absolute path to your alertmanager file.
+    ports:
+      - "9093:9093"
+    command:
+      - --config.file=/etc/alertmanager/alertmanager.yml
+
+
+
+
+      
+# docker exec -it postgres psql -U postgres
+# CREATE DATABASE task_manager;
+# CREATE USER postgres WITH PASSWORD 'c3po';
+# GRANT ALL PRIVILEGES ON DATABASE task_manager TO postgres;
+# \q
+
+# docker-compose up --build
+# docker-compose up --force-recreate
+# docker-compose build --no-cache
+
+#DEBUGGING
+
+#For checking logs and debugging
+# docker logs [containername]
+
+# Grafana access - http://localhost:3000
+
